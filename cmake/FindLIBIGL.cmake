@@ -14,6 +14,7 @@ find_path(LIBIGL_INCLUDE_DIR igl/readOBJ.h
     PATHS
         ${CMAKE_SOURCE_DIR}/../..
         ${CMAKE_SOURCE_DIR}/..
+        ${CMAKE_SOURCE_DIR}/include/libigl
         ${CMAKE_SOURCE_DIR}
         ${CMAKE_SOURCE_DIR}/libigl
         ${CMAKE_SOURCE_DIR}/../libigl

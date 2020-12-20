@@ -1,4 +1,4 @@
-#include <igl/opengl/glfw/Viewer.h>
+#include <igl/opengl/glfw/Viewer.h> // needs a link in the CMAKE
 
 int main(int argc, char *argv[])
 {
