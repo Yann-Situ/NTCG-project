@@ -38,8 +38,9 @@ endif()
 # libigl
 option(LIBIGL_WITH_OPENGL            "Use OpenGL"         ON) # for the viewer only
 option(LIBIGL_WITH_OPENGL_GLFW       "Use GLFW"           ON) # for the viewer only
+option(LIBIGL_WITH_OPENGL_GLFW_IMGUI "Use IMGUI"          ON)
 
-find_package(LIBIGL REQUIRED QUIET)
+find_package(LIBIGL REQUIRED QUIET) #handle by cmake/FindLIBIGL.cmake
 
 ###########################################
 
@@ -65,3 +66,11 @@ if ( COMPILE_TEST )
         igl::core igl::opengl_glfw
     )
 endif()
+#MAIN
+set(exe-main "mesh_processing")
+add_executable(exe-main  mains/main.cpp)
+target_link_libraries(
+    exe-main
+    BaseFiles
+    igl::core igl::opengl_glfw igl::opengl_glfw_imgui
+)

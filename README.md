@@ -42,3 +42,7 @@ From within the `build` directory just issue:
     ./example
 
 A glfw app should launch displaying a 3D cube.
+
+### Time
+10 minutes on paper + 5 minute on project
+Report : 1/3 on paper, 2/3 on project
