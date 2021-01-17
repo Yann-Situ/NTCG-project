@@ -34,12 +34,21 @@ Eigen::VectorXd Lap::curvature()
 
 void Lap::harmonics(int k, Eigen::MatrixXd &eigVec, Eigen::VectorXd &eigVal)
 {
-    if(!igl::eigs(L,M,k,igl::EIGS_TYPE_SM,eigVec,eigVal))
+    Eigen::MatrixXd eigVec_t;
+    Eigen::VectorXd eigVal_t;
+    if(!igl::eigs((-L).eval(),M,k,igl::EIGS_TYPE_SM,eigVec_t,eigVal_t))
     {
       std::cout<<"Lap::harmonics failed."<<std::endl;
     }
     // Normalize
-    eigVec = ((eigVec.array()-eigVec.minCoeff())/(eigVec.maxCoeff()-eigVec.minCoeff())).eval();
+    //eigVec_t = ((eigVec_t.array()-eigVec_t.minCoeff())/(eigVec_t.maxCoeff()-eigVec_t.minCoeff())).eval();
+    eigVec.resize(eigVec_t.rows(), eigVec_t.cols());
+    eigVal.resize(eigVal_t.size());
+    for (int i = 0 ; i < k ; i++)
+    {
+        eigVec.col(i) = eigVec_t.col(k-1-i);
+        eigVal(i) = eigVal_t(k-1-i);
+    }
 }
 
 Eigen::SparseMatrix<double> Lap::getL() {return L;}

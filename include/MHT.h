@@ -11,10 +11,11 @@
 class HarmonicTransform
 {
 private:
-    HarmonicTransform();
-    ~HarmonicTransform();
+
 
 public:
+    HarmonicTransform();
+    ~HarmonicTransform();
     /*
     * Perform a Manifold Harmonic transform, in order to get the coeff of
     * harmonic decomposition from :
@@ -24,8 +25,8 @@ public:
     *          (M^{-1/2}LM^{1/2} where L is the Beltrami with cotans)
     * return a vector of the eigVec.cols() coeff of the harmonic decomposition.
     */
-    static Eigen::MatrixXd MHT(Eigen::MatrixXd V,
-        Eigen::MatrixXd M,
+    Eigen::MatrixXd MHT(Eigen::MatrixXd V,
+        Eigen::SparseMatrix<double> M,
         Eigen::MatrixXd eigVec);
 
 
@@ -38,8 +39,8 @@ public:
     *          (M^{-1/2}LM^{1/2} where L is the Beltrami with cotans)
     * return the eigVec.rows() vertex positions
     */
-    static Eigen::MatrixXd invMHT(Eigen::MatrixXd R,
-        Eigen::MatrixXd M,
+    Eigen::MatrixXd invMHT(Eigen::MatrixXd R,
+        Eigen::SparseMatrix<double> M,
         Eigen::MatrixXd eigVec);
 };
 

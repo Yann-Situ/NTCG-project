@@ -5,6 +5,7 @@
 #include <igl/readOFF.h>
 
 #include <igl/opengl/glfw/Viewer.h>
+#include <igl/invert_diag.h>
 #include <igl/opengl/glfw/imgui/ImGuiMenu.h>
 #include <igl/opengl/glfw/imgui/ImGuiHelpers.h>
 #include <imgui/imgui.h>
@@ -24,6 +25,7 @@ int main(int argc, char *argv[])
   Eigen::MatrixXi F; // faces
   const char* filename = (argc > 1) ? argv[1] : "../ressources/bunny.off";
   igl::readOFF(filename, V, F);
+  V = ((V.array()-V.minCoeff())/(V.maxCoeff()-V.minCoeff())).eval();
   // Eigen::MatrixXd C_default_color(V.rows(),3);
   // for (int i = 0 ; i<C_default_color.rows() ; i++)
   // {
@@ -118,13 +120,16 @@ int main(int argc, char *argv[])
       static int idx_harmonics_choice = 0;
       if (ImGui::InputInt("Num harmonics to compute", &harmonics_nb))
       {
-        harmonics_nb = std::max(1, std::min(26, harmonics_nb));
+        harmonics_nb = std::max(1, std::min(1000, harmonics_nb));
       }
       if (ImGui::Button("Compute harmonics", ImVec2(-1,0)))
       {
         std::cout << "computing the " << harmonics_nb << " first harmonics...\n";
         Lap_handler.harmonics(harmonics_nb, eigVec, eigVal);
+        Eigen::SparseMatrix<double> M = Lap_handler.getM();
         std::cout << "Done! Eigen values are " << eigVal << "\n";
+        std::cout << "eigVec :\n" << eigVec.block(0,0,10,5) << "\n";
+        //std::cout << "eigVecT*M*eigVec :\n" << eigVec.transpose()* M * eigVec << "\n"; // should be identity
       }
 
       if (eigVec.cols()+1 != (int) harmonics_choices.size())
@@ -157,12 +162,17 @@ int main(int argc, char *argv[])
 
       if (ImGui::Button("invMHT", ImVec2(-1,0)))
       {
-          Eigen::MatrixXd H_coeff = HarmonicTransform::MHT(V, Lap_handler.getM(), eigVec);
-          V_todisplay = HarmonicTransform::invMHT(H_coeff, Lap_handler.getM(), eigVec);
+          HarmonicTransform HT;
+          Eigen::MatrixXd H_coeff = HT.MHT(V, Lap_handler.getM(), eigVec);
+          std::cout << "R dims : " << H_coeff.rows() << "x" << H_coeff.cols() << std::endl;
+          V_todisplay = HT.invMHT(H_coeff, Lap_handler.getM(), eigVec);
+          viewer.data().set_vertices(V_todisplay);
+          std::cout << "HarmonicTransform Done\n";
       }
       if (ImGui::Button("Reset vertices", ImVec2(-1,0)))
       {
         V_todisplay = V;
+        viewer.data().set_vertices(V_todisplay);
       }
       //
       // // Add a button
@@ -176,6 +186,6 @@ int main(int argc, char *argv[])
   // Plot the mesh
   viewer.data().set_mesh(V_todisplay, F);
   //viewer.data().set_data(K);
-  viewer.data().add_label(viewer.data().V.row(0) + viewer.data().V_normals.row(0).normalized()*0.005, "Hello World!");
+  //viewer.data().add_label(viewer.data().V.row(0) + viewer.data().V_normals.row(0).normalized()*0.005, "Hello World!");
   viewer.launch();
 }
