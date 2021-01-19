@@ -3,17 +3,6 @@
 - *LIBIGL* (https://github.com/libigl/libigl.git) must be cloned in `./include`.
 - If it is already on your computer, it can be linked to the project by modifying the `CMakLists.txt` using `include_directories(PATH_TO_LIBIGL/include)`.
 
-## libigl example project
-
-A blank project example showing how to use libigl and cmake. Feel free and
-encouraged to copy or fork this project as a way of starting a new personal
-project using libigl.
-
-### See the tutorial first
-
-Then build, run and understand the [libigl
-tutorial](http://libigl.github.io/libigl/tutorial/).
-
 ### Dependencies
 
 The only dependencies are stl, eigen, [libigl](http://libigl.github.io/libigl/) and
@@ -33,16 +22,8 @@ Compile this project using the standard cmake routine:
     cmake ..
     make
 
-This should find and build the dependencies and create a `example_bin` binary.
-
 ### Run
 
-From within the `build` directory just issue:
-
-    ./example
-
-A glfw app should launch displaying a 3D cube.
-
-### Time
-10 minutes on paper + 5 minute on project
-Report : 1/3 on paper, 2/3 on project
+Run `exe-main` after compilation.
+A glfw app should launch *ressources/bunny.off*.
+You can launch your own mesh with `exe-main my_own_mesh.off`.
