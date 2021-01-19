@@ -39,6 +39,7 @@ endif()
 option(LIBIGL_WITH_OPENGL            "Use OpenGL"         ON) # for the viewer only
 option(LIBIGL_WITH_OPENGL_GLFW       "Use GLFW"           ON) # for the viewer only
 option(LIBIGL_WITH_OPENGL_GLFW_IMGUI "Use IMGUI"          ON)
+option(LIBIGL_WITH_PNG               "Use PNG"            ON)
 
 find_package(LIBIGL REQUIRED QUIET) #handle by cmake/FindLIBIGL.cmake
 
@@ -72,5 +73,5 @@ add_executable(exe-main  mains/main.cpp)
 target_link_libraries(
     exe-main
     BaseFiles
-    igl::core igl::opengl_glfw igl::opengl_glfw_imgui
+    igl::core igl::opengl_glfw igl::opengl_glfw_imgui igl::png
 )

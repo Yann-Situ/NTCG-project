@@ -33,3 +33,5 @@
 
 build/*
 include/libigl*
+rapport/*
+results/*

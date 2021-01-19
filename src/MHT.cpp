@@ -25,7 +25,7 @@ Eigen::MatrixXd HarmonicTransform::MHT(Eigen::MatrixXd V,
     {
         R.col(d) = (V.col(d).transpose() * M * eigVec).transpose();
     }
-    std::cout << "R :\n" << R.block(0,0,std::min(m,20),3) << "\n";
+    //std::cout << "R :\n" << R.block(0,0,std::min(m,20),3) << "\n";
     return R;
 }
 
@@ -41,15 +41,6 @@ Eigen::MatrixXd HarmonicTransform::invMHT(Eigen::MatrixXd R,
     for (int d = 0 ; d < R.cols() ; d++)
     {
         V.col(d) = eigVec * R.col(d);
-        // for (int k = 0 ; k < m ; k++)
-        // {
-        //     V.col(d) = V.col(d) + R(k,d) * eigVec.col(k);
-        // }
-
-        // for (int i = 0 ; i < n ; i++)
-        // {
-        //     V(i,d) *= sqrt(M.coeff(i,i));
-        // }
     }
     return V;
 }
